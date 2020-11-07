@@ -8,21 +8,35 @@ jobs:
     strategy:
       matrix:
         cxx: [g++-4.8, g++-8, g++-10, clang++-9]
+        standard: [11, 14, 17, 20]
         build_type: [Debug, Release]
         std: [11]
         include:
           - cxx: g++-4.8
             install: sudo apt install g++-4.8
-          - cxx: g++-8
-            std: 14
-          - cxx: g++-10
-            std: 17
-          - cxx: clang++-9
-            std: 11
           - cxx: clang++-9
             build_type: Debug
             fuzz: -DFMT_FUZZ=ON -DFMT_FUZZ_LINKMAIN=ON
             std: 17
+        exclude:
+          - cxx: g++-4.8
+            standard: 14
+          - cxx: g++-4.8
+            standard: 17
+          - cxx: g++-4.8
+            standard: 20
+
+          - cxx: g++-8
+            standard: 11
+          - cxx: g++-8
+            standard: 17
+          - cxx: g++-8
+            standard: 20
+
+          - cxx: g++-10
+            standard: 11
+          - cxx: g++-10
+            standard: 14
 
     steps:
     - uses: actions/checkout@v2
