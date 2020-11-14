@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    runs-on: ${{matrix.os}}
     strategy:
       matrix:
         cxx: [g++-4.8, g++-8, g++-10, clang++-9]
@@ -13,7 +13,14 @@ jobs:
         std: [11]
         include:
           - cxx: g++-4.8
+            os: ubuntu-16.04
             install: sudo apt install g++-4.8
+          - cxx: g++-8
+            os: ubuntu-18.04
+          - cxx: g++-10
+            os: ubuntu-18.04
+          - cxx: clang++-9
+            os: ubuntu-18.04
           - cxx: clang++-9
             build_type: Debug
             fuzz: -DFMT_FUZZ=ON -DFMT_FUZZ_LINKMAIN=ON
